@@ -10,20 +10,41 @@
   </style>
 </head>
 <body>
-
   <div class="bio">
-
   </div>
 
 <script>
+
   const dict = {
     HTML: 'Hyper Text Markup Language',
     CSS: 'Cascading Style Sheets',
     JS: 'JavaScript'
   };
 
-  const first = 'Wes';
-  const last = 'Bos';
+  function taggedTemplate(strings, ...values) {
+    // make a new array of not just values, but if theres an abv wrap in <abr> tag
+    const dictMatch = values.map(item => {
+      if(dict[item]) {
+        return `<abbr title="${dict[item]}">${item}</abbr>`;
+      }
+      return item;
+    })
+    console.log(dictMatch);
+
+    return strings.reduce((sentence, string, i) => {
+      return `${sentence}${string}${dictMatch[i] || ''}`
+    },'');
+  }
+
+  const first = 'D';
+  const last = 'Tapp';
+  const sentence = taggedTemplate`hello my name is ${first} ${last} and I love to code ${'HTML'}, ${'CSS'} and ${'JS'}`
+
+  const bio = document.querySelector('.bio');
+  const p = document.createElement('p');
+
+  p.innerHTML = sentence;
+  bio.appendChild(p);
 
 </script>
 </body>
